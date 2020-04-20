@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title> Rasika Deodhar</title>
+   <script src="https://cdn.jsdelivr.net/npm/vega@5.9.0"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
+   <style>
+       body {
+             font-family: sans-serif;
+           }
+    
+           .vega-actions a {
+             padding: 0.2em;
+           }
+    </style>
+</head>
+<body>
+    <table style="width: 850px;" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Rasika H. Deodhar</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">19200098</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv" target="_blank" rel="noopener">Kickstarter Projects Dataset</a>.</p>
+    <p>The given dataset is collected from <a href=https://www.kaggle.com/kemical/kickstarter-projects> Kickstarter Projects - Kaggle.</a> The dataset contains records of projects which were initiated by an organization. The projects are categorized according to different categories and sub-categories. Other information contained is currency in which the project is funded, deadline of project submission, goal amount to be collected for its initiation, launch date and time, pledged amount which is funded by other organizations. The project could be in any state like - <u>failed, cancelled, live, successful, suspended.</u> Backers define how many organizations are supporting the project. Further, country of project is given. <u>USD pledged</u> and <u>USD pledged real</u> are the amounts in US dollars which are converted from goal values by different websites - <a href="https://www.kaggle.com/tonyplaysguitar/convert-ks-pledges-to-usd/">KS</a> and <a href="fixer.io">fixer.io</a> respectively, similarly USD Goal real is Goal amount in USD. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;"> How are the projects launched across various main-categories?  </td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" align="center"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "transform": [
+  ],
+  "width": 350,
+  "height": 300,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv"
+  },
+  "mark": "tick",
+  "title":"Category wise distribution of projects with its state (based on launch year)",
+  "encoding": {
+    "x": {
+      "timeUnit": "yearmonthdate",
+      "field": "launched",
+      "type": "ordinal",
+      "title": "Launched Year",
+      "axis": {
+        "format": "%Y",
+        "labelAngle": -40
+      }
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State"
+    },
+    "y": {
+      "field": "main_category",
+      "type": "nominal",
+      "title": "Main Category"
+    },
+    "tooltip": [
+      {
+        "timeUnit": "yearmonthdate",
+        "field": "launched",
+        "type": "temporal"
+      },
+      {
+        "field": "name",
+        "type": "nominal"
+      },
+      {
+        "field": "state",
+        "type": "nominal"
+      }
+    ]
+  },
+  "config": {}
+}
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The above plot displays tick values for each record spreaded over all main-categories based on launch date. These are filterd by the state of the project. Tootltip displays launched date, name, goal value and state of each project.  </td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;"> There are more successful project launches in Design, Film & Video and Music industry; indicating people are more interested to fund and pledge these fields. Art, Food, Comics, Photography, Publishing and Theatre have moderate project launches. Mostly they are successful but few have failed or cancelled too. In technology domain, sudden launches have begun since the year 2012 and have still live projects. People would have invested and funded as it is an upcoming and important field. Similar patch can be seen for Design. </p> Crafts, Dance, Fashion, Journalism have very less launches over the entire decade despite of having average goal value, indicating people are not willing to fund or are less likely to pay for these areas. </td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;"> I considered to plot a colored tick graph as it is an interesting way to visualize your categorical fields with density values. Across the launch date area many records are populated by tick. I considered to color using state as it is very convinent to get information from. Alternatively, I tried using currency values as filter to color but it was not making a good visual and I was unable to extract information out of it. I also gave tooltip to display launch date, name, goal value and state of the project to navigate through and know the values easily. By this user could see projects with different categories along with their goal and launch information, indicating interest of users to fund.  </td></tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The Pledged and Goal values which are greater than zero and less than 5000 are considered. Backers more than 100 and less than 200 are shown. Also, the duration of project(launched_date-deadline) is considered to be more than 50 days. </td></tr>
+</tbody>
+</table>
+</body>
+</html>

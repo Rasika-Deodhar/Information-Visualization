@@ -1,0 +1,143 @@
+<html>
+<head>
+    <title> Rasika Deodhar</title>
+   <script src="https://cdn.jsdelivr.net/npm/vega@5.9.0"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
+   <style>
+       body {
+             font-family: sans-serif;
+           }
+    
+           .vega-actions a {
+             padding: 0.2em;
+           }
+    </style>
+</head>
+<body>
+    <table style="width: 850px;" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Rasika H. Deodhar</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">19200098</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv" target="_blank" rel="noopener">Kickstarter Projects Dataset</a>.</p>
+    <p>The given dataset is collected from <a href=https://www.kaggle.com/kemical/kickstarter-projects> Kickstarter Projects - Kaggle.</a> The dataset contains records of projects which were initiated by an organization. The projects are categorized according to different categories and sub-categories. Other information contained is currency in which the project is funded, deadline of project submission, goal amount to be collected for its initiation, launch date and time, pledged amount which is funded by other organizations. The project could be in any state like - <u>failed, cancelled, live, successful, suspended.</u> Backers define how many organizations are supporting the project. Further, country of project is given. <u>USD pledged</u> and <u>USD pledged real</u> are the amounts in US dollars which are converted from goal values by different websites - <a href="https://www.kaggle.com/tonyplaysguitar/convert-ks-pledges-to-usd/">KS</a> and <a href="fixer.io">fixer.io</a> respectively, similarly USD Goal real is Goal amount in USD. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;">How are USD Pledged Real and USD Goal Real fields are related to each other? Are they related to backers? Identify and comment.</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+    <div><b> Analysis between Pledged amount, Goal amount and Backers </b><br/><br/></div>
+  <div id="vis" align="center"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.usd_pledged_real < 5000"
+    },
+    {
+      "filter": "datum.backers < 200"
+    },
+    {
+      "filter": "datum.usd_goal_real < 5000"
+    }
+  ],
+  "repeat": {
+    "row": [
+      "usd_pledged_real",
+      "usd_goal_real",
+      "backers"
+    ],
+    "column": [
+      "usd_pledged_real",
+      "usd_goal_real",
+      "backers"
+    ]
+  },
+  "spec": {
+    "width": 200,
+    "height": 200,
+    "mark": {
+      "type": "point"
+    },
+    "encoding": {
+      "x": {
+        "field": {
+          "repeat": "column"
+        },
+        "type": "quantitative",
+        "scale": {
+          "zero": false
+        }
+      },
+      "tooltip": [
+        {
+          "timeUnit": "yearmonthdate",
+          "field": "launched",
+          "type": "temporal"
+        },
+        {
+          "field": "name",
+          "type": "nominal"
+        },
+        {
+          "field": "state",
+          "type": "nominal"
+        }
+      ],
+      "y": {
+        "field": {
+          "repeat": "row"
+        },
+        "type": "quantitative",
+        "scale": {
+          "zero": false
+        }
+      },
+      "color": {
+        "field": "state",
+        "type": "nominal"
+      }
+    }
+  },
+  "config": {}
+}
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The above scatter plot matrix shows the relation between 3 fields - usd pledged real, usd goal real and backers. For each displayed record, state of the project is displayed by different colors. Tootltip shows the launched year, name and currency of the project.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;"> Scatter plot defines the relation between more than a field. The further analysis is based on how these values are related to each other on the basis of state of the project. In usd_pledged_real vs usd_goal_real graph, it can be seen that they are symmetrically proportional to each other. For highest goals, the pledgers are less and hence projects fail. So, if a project has highest value as target, possibility of less pledgers can be there. </p> Another observation here is, for more number of backers, the pledgers are comparitively less, this could possibly mean that the project idea is liked by many people and they are willing to sponsor for it. There are outliers specifying few projects are failed with good backers but less crowdfunding. Other outliers contain live projects - one with good pledgers and another with less pledgers, they could be successful if their number of backers increase and are able to fulfill the goal. </p> For values between 2000-4000 USD of goal amount, projects have around 100-120 backers, it could mean the projects are really innovative and people are attracted, but there is no specific relation between these 2 fields overall. </td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;"> In order to easily cross verify the relations between the 3 mention fields, I chose a scatter plot. The values are seperated by status of the project. Scattered values are marked with point to display individual value clear. Tool tips are added to display - launch date, name and currency of the project. This is to see what project is forming an outlier and which currency has the funding happened in. </p> Alternatively, I could have used normal scatter plot model to display the relation but then it would be effort to code 3 graphs with concat operation. Therefore I considered using of row and column repeat.</td></tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The Pledged and Goal values which are greater than zero and less than 5000 are considered. Backers more than 100 and less than 200 are shown. Also, the duration of project(launched_date-deadline) is considered to be more than 50 days. </td></tr>
+</tbody>
+</table>
+</body>
+</html>

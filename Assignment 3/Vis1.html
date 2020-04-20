@@ -1,0 +1,110 @@
+<html>
+<head>
+    <title> Rasika Deodhar - Assignment 3</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.9.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
+</head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Rasika Deodhar</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">19200098</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+<p><a href="https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv" target="_blank" rel="noopener">Kickstarter Projects Dataset</a>.</p>
+    <p>The given dataset is collected from <a href=https://www.kaggle.com/kemical/kickstarter-projects> Kickstarter Projects - Kaggle.</a> The dataset contains records of projects which were initiated by an organization. The projects are categorized according to different categories and sub-categories. Other information contained is currency in which the project is funded, deadline of project submission, goal amount to be collected for its initiation, launch date and time, pledged amount which is funded by other organizations. The project could be in any state like - <u>failed, cancelled, live, successful, suspended.</u> Backers define how many organizations are supporting the project. Further, country of project is given. <u>USD pledged</u> and <u>USD pledged real</u> are the amounts in US dollars which are converted from goal values by different websites - <a href="https://www.kaggle.com/tonyplaysguitar/convert-ks-pledges-to-usd/">KS</a> and <a href="fixer.io">fixer.io</a> respectively, similarly USD Goal real is Goal amount in USD. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;"> How many backers supported the projects in its deadline year? How many projects were successful to finish per year? </td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/Rasika-Deodhar/Information-Visualization/master/new_data.csv"
+  },
+  "transform": [],
+  "width": 400,
+  "height": 400,
+  "mark": {
+    "type": "bar",
+    "aspect": true
+  },
+  "title":"Number of Backers per Deadline Year",
+  "encoding": {
+    "x": {
+      "field": "deadline",
+      "type": "temporal",
+      "timeUnit": "year",
+      "title":"Year of Deadline"
+    },
+    "tooltip": [
+      {
+        "field": "state",
+        "type": "nominal",
+        "title": "State"
+      },
+      {
+        "type": "quantitative",
+        "aggregate": "count",
+        "title": "Number of Backers"
+      }
+    ],
+    "y": {
+      "field": "backers",
+      "type": "quantitative",
+      "aggregate": "count",
+      "scale": {
+        "zero": false
+      },
+      "axis": {
+        "title": "Number of Backers"
+      }
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal"
+    }
+  },
+  "config": {}
+}    
+vegaEmbed("#vis", yourVlSpec);
+  
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The above bar chart displays the count of backers for each year's project deadline. For each bar the colored sections display the state of the project. The tooltip shows the number of backers holded by each bar for a particular state of project. Value of number of backers changes according to each year. </td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;"> When a project has its deadline the goals are set. To meet the goals the start-ups try to gather more backers/funders. However the existing backers represent the current pledged amount which adds up to the goal value to make a project successful. For this reason, it is important to know how many backers are involved in a project, especially when deadlines are supposed to meet. </p> The bar indicates that there are more backers for successful projects in these 2 years -> 2011 through 2013, capable of meeting their deadline. Less projects failed in 2011-2012; in 2012-2013, backers were the highest but few project failures and cancellations also took place. Least backers are for the year 2018-2019, where projects are still live and so far no cancellation took place but only 1 project is suspended. Maximum failures happened in 2014-2015 where backers count was also less. </p> Despite of having sufficient backers all along, there are a few suspensions for years 2013 through 2018.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;"> I considered plotting a bar graph as it is the best way to display temporal values. The choice of colors were made so that it is easy to differentiate between each state. Tooltip values shows the project state and its number of backers. This makes it easy for the user to navigate and check the value. As these values represent time as x-axis, it would be good if we would keep this plot unsorted. It is easy to view and analyze the plot on the basis of time. </p> Another alternative to this graph was plotting a line plot, but it was not sufficient to display the response for each state. Also, for almost accurate understanding of values a bar graph is visually relaxing. </td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;"> The Pledged and Goal values which are greater than zero are considered. Backers more than 100 are shown. Also, the duration of project(launched_date-deadline) is considered to be more than 50 days. </td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
